@@ -1,0 +1,26 @@
+services:
+  web:
+    build: .
+    container_name: question-web
+    ports:
+      - "5000:5000"
+    expose:
+      - "80"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - DB_PATH=/data/app.db
+    volumes:
+      - appdata:/data
+    read_only: true
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,noexec,size=64m
+      - /app/uploads:rw,nosuid,nodev,noexec,size=128m,mode=0755
+      - /app/plugins:rw,nosuid,nodev,noexec,size=128m,mode=0755
+      - /app/static/uploads:rw,nosuid,nodev,noexec,size=128m,mode=0755
+      - /var/run/apache2:rw,nosuid,nodev,noexec,size=16m
+      - /var/lock/apache2:rw,nosuid,nodev,noexec,size=16m
+    restart: unless-stopped
+
+volumes:
+  appdata:

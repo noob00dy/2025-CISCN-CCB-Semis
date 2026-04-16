@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <main class="page">
+    <section class="card" aria-label="About">
+      <header class="card__header">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <h1 class="title">个人信息</h1>
+        </div>
+        <p class="subtitle">用户：<code>{{ user }}</code></p>
+      </header>
+
+      <div class="card__body">
+        {% if error %}<div class="alert" role="alert">{{ error }}</div>{% endif %}
+
+        <div class="alert" style="border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.06);">
+          <div style="display:flex; gap:12px; align-items:center;">
+            {% if avatar_local %}
+              <img src="{{ url_for('static', filename=avatar_local) }}" alt="avatar" style="width:56px; height:56px; border-radius:14px; object-fit:cover;" />
+            {% else %}
+              <div style="width:56px; height:56px; border-radius:14px; background: rgba(255,255,255,0.10);"></div>
+            {% endif %}
+            <div>
+              <div style="font-size:12px; opacity:.75;">本地头像</div>
+              <div style="font-size:12px; opacity:.9;"><code>{{ avatar_local or '未上传' }}</code></div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px; font-size:12px; opacity:.85;">
+            远程头像 URL：<code>{{ avatar_url or '未设置' }}</code>
+          </div>
+
+          {% if remote_info %}
+            <div style="margin-top:8px; font-size:12px; opacity:.85;">
+              远程信息：
+              <code>type={{ remote_info.content_type or '?' }}</code>
+              <code>len={{ remote_info.content_length or '?' }}</code>
+              <code>len={{ remote_info.content_snippet or '?' }}</code>
+            </div>
+          {% endif %}
+        </div>
+
+        <form class="form" method="post" enctype="multipart/form-data">
+          <div class="field">
+            <label for="about">About</label>
+            <input class="input" id="about" name="about" type="text" value="{{ about or '' }}" placeholder="介绍一下自己" />
+          </div>
+
+          <div class="field">
+            <label for="avatar_url">头像远程 URL（只获取信息）</label>
+            <input class="input" id="avatar_url" name="avatar_url" type="url" value="{{ avatar_url or '' }}" placeholder="https://example.com/avatar.png" />
+          </div>
+
+          <div class="field">
+            <label for="avatar_file">上传本地头像（png/jpg/gif/webp）</label>
+            <input class="input" id="avatar_file" name="avatar_file" type="file" accept="image/*" />
+          </div>
+
+          <button class="button" type="submit">保存</button>
+          <a class="link" href="{{ url_for('dashboard') }}">返回后台</a>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
