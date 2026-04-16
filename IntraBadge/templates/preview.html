@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="grid">
+  <section class="card">
+    <h3>Rendered Badge</h3>
+    <div class="muted">This is the server-rendered result of your custom badge template.</div>
+
+    <div style="margin-top:12px;">
+      {{ rendered|safe }}
+    </div>
+
+    <div class="kpi">
+      <div class="k"><div class="n">Avatar Content-Type</div><div class="v" style="font-family:var(--mono); font-size:12px;">{{ avatar_ctype }}</div></div>
+      <div class="k"><div class="n">Avatar Size</div><div class="v">{{ avatar_size }} bytes</div></div>
+      <div class="k"><div class="n">Updated</div><div class="v">{{ avatar_updated }}</div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Raw Inputs</h3>
+    <div class="muted">Useful for debugging template rendering.</div>
+    <div style="margin-top:10px;">
+      <div class="muted">Avatar URL</div>
+      <div class="codebox">{{ avatar_url }}</div>
+    </div>
+    <div style="margin-top:10px;">
+      <div class="muted">Template</div>
+      <div class="codebox">{{ tpl }}</div>
+    </div>
+    <div class="row" style="margin-top:10px;">
+      <a class="btn" href="/template">Edit Template</a>
+      <a class="btn ghost" href="/dashboard">Back</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{ title or "IntraBadge" }}</title>
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#fff; --text:#0f172a; --muted:#64748b; --line:#e7eaf3;
+      --brand:#2563eb; --brand2:#1d4ed8; --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:14px;
+      --mono: ui-monospace, Menlo, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0; font-family:var(--sans); background:var(--bg); color:var(--text);}
+    a{color:inherit;}
+    .layout{display:grid; grid-template-columns: 260px 1fr; min-height:100vh;}
+    .side{
+      background:#0b1220; color:#e5e7eb; padding:18px; position:sticky; top:0; height:100vh;
+      border-right:1px solid rgba(255,255,255,.06);
+    }
+    .logo{display:flex; gap:10px; align-items:center; margin-bottom:18px;}
+    .mark{width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--brand),#22c55e);}
+    .logo b{font-size:16px;}
+    .logo .sub{font-size:12px; color:rgba(229,231,235,.7);}
+    .nav{margin-top:14px; display:grid; gap:8px;}
+    .nav a{
+      display:flex; gap:10px; align-items:center; padding:10px 12px; border-radius:12px;
+      text-decoration:none; color:#e5e7eb; background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .nav a:hover{background:rgba(255,255,255,.07);}
+    .pill{margin-top:18px; padding:10px 12px; border-radius:12px;
+      background:rgba(37,99,235,.14); border:1px solid rgba(37,99,235,.25);
+      color:#dbeafe; font-size:12px;
+    }
+    .main{padding:18px 22px;}
+    .top{
+      display:flex; justify-content:space-between; align-items:center;
+      background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+      padding:14px 16px; box-shadow:var(--shadow);
+    }
+    .top .title{font-weight:700;}
+    .top .meta{color:var(--muted); font-size:13px;}
+    .grid{margin-top:14px; display:grid; grid-template-columns: 1.2fr .8fr; gap:14px;}
+    .card{
+      background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+      padding:16px; box-shadow:var(--shadow);
+    }
+    .card h3{margin:0 0 10px 0; font-size:16px;}
+    .muted{color:var(--muted);}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:9px 12px; border-radius:12px; border:1px solid var(--line);
+      background:#fff; text-decoration:none; cursor:pointer; font-size:13px;
+    }
+    .btn.primary{background:var(--brand); border-color:var(--brand); color:#fff;}
+    .btn.primary:hover{background:var(--brand2);}
+    .btn.ghost{background:transparent;}
+    input, textarea{
+      width:100%; border-radius:12px; border:1px solid var(--line);
+      padding:10px 12px; font-size:13px; outline:none; background:#fff;
+    }
+    textarea{min-height:210px; font-family:var(--mono);}
+    .kpi{display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:10px;}
+    .k{padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:#fbfcff;}
+    .k .n{font-size:12px; color:var(--muted);}
+    .k .v{margin-top:4px; font-weight:700;}
+    .badge{
+      display:grid; grid-template-columns: 84px 1fr; gap:12px; align-items:center;
+      border:1px solid var(--line); border-radius:16px; padding:12px; background:#fbfcff;
+    }
+    .avatar{width:72px; height:72px; border-radius:18px; overflow:hidden; background:#e5e7eb; display:flex; align-items:center; justify-content:center;}
+    .avatar img{width:100%; height:100%; object-fit:cover;}
+    .avatar-ph{color:#334155; font-size:12px;}
+    .title{font-weight:800; font-size:16px;}
+    .sub{color:var(--muted); font-size:13px; margin-top:4px;}
+    .meta{color:var(--muted); font-size:12px; margin-top:6px;}
+    .codebox{
+      white-space:pre-wrap; border:1px solid var(--line); border-radius:12px;
+      padding:10px 12px; background:#f7f9ff; font-family:var(--mono); font-size:12px;
+    }
+    .alert{padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:#fff;}
+    .alert-danger{border-color:#fecaca; background:#fff1f2; color:#9f1239;}
+    .alert-info{border-color:#bfdbfe; background:#eff6ff; color:#1e40af;}
+    @media (max-width: 980px){
+      .layout{grid-template-columns: 1fr;}
+      .side{height:auto; position:relative;}
+      .grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="side">
+      <div class="logo">
+        <div class="mark"></div>
+        <div>
+          <b>IntraBadge</b>
+          <div class="sub">Internal Badge System</div>
+        </div>
+      </div>
+
+      <div class="pill">
+        Current user: <b>{{ user }}</b><br/>
+        Switch: <span style="font-family:var(--mono);">/prefs?u=alice</span>
+      </div>
+
+      <nav class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/preview">Badge Preview</a>
+        <a href="/template">Template Editor</a>
+        <a href="/debug/diag">Diagnostics</a>
+      </nav>
+
+      <div class="pill" style="margin-top:12px;">
+        Tip: Avatar is cached first. Only <b>image/*</b> can be displayed as avatar.
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="top">
+        <div>
+          <div class="title">{{ title or "Workspace" }}</div>
+          <div class="meta">Employee badge rendering · cache · diagnostics</div>
+        </div>
+        <div class="row">
+          <a class="btn ghost" href="/prefs?u=guest">Reset User</a>
+          <a class="btn primary" href="/preview">Open Preview</a>
+        </div>
+      </div>
+
+      {% block body %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="grid">
+  <section class="card">
+    <h3>Avatar Settings</h3>
+    <div class="muted">Set an avatar URL. The backend will fetch and cache it for rendering.</div>
+
+    <form method="post" action="/avatar" style="margin-top:10px;">
+      <label class="muted">Avatar URL</label>
+      <input name="avatar_url" placeholder="https://example.com/avatar.png" value="{{ avatar_url }}"/>
+      <div class="row" style="margin-top:10px;">
+        <button class="btn primary" type="submit">Save URL</button>
+        <button class="btn" formaction="/avatar/refresh" formmethod="post" type="submit">Refresh Cache</button>
+        <a class="btn ghost" href="/avatar/file">Open Avatar File</a>
+      </div>
+    </form>
+
+    <div class="kpi">
+      <div class="k"><div class="n">Cache Status</div><div class="v">{{ "OK" if avatar_ok else "Not Image" }}</div></div>
+      <div class="k"><div class="n">Content-Type</div><div class="v" style="font-family:var(--mono); font-size:12px;">{{ avatar_ctype }}</div></div>
+      <div class="k"><div class="n">Size</div><div class="v">{{ avatar_size }} bytes</div></div>
+    </div>
+    <div class="muted" style="margin-top:10px;">Last refresh: {{ avatar_updated }}</div>
+  </section>
+
+  <section class="card">
+    <h3>Template Snapshot</h3>
+    <div class="muted">Stored in Redis as <span style="font-family:var(--mono);">tpl:{{ user }}</span></div>
+    <div class="codebox" style="margin-top:10px;">{{ tpl }}</div>
+    <div class="row" style="margin-top:10px;">
+      <a class="btn primary" href="/preview">Preview Badge</a>
+      <a class="btn" href="/template">Edit Template</a>
+    </div>
+
+    <div class="alert alert-info" style="margin-top:12px;">
+      Advanced template context includes: <span style="font-family:var(--mono);">name</span>,
+      <span style="font-family:var(--mono);">avatar_ok</span>,
+      <span style="font-family:var(--mono);">avatar_size</span>,
+      and utility functions like <span style="font-family:var(--mono);">avatar_raw_text()</span>.
+    </div>
+  </section>
+</div>
+{% endblock %}

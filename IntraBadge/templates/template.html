@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="card" style="margin-top:14px;">
+  <h3>Template Editor</h3>
+  <div class="muted">
+    Variables: <code>name</code>, <code>avatar_ok</code>, <code>avatar_size</code>, <code>avatar_ctype</code>.<br/>
+    Utilities: <code>avatar_raw_text()</code>, <code>avatar_raw_b64()</code>.
+  </div>
+
+  <form method="post" action="/template" style="margin-top:12px;">
+    <textarea name="tpl">{{ tpl }}</textarea>
+    <div class="row" style="margin-top:10px;">
+      <button class="btn primary" type="submit">Save</button>
+      <a class="btn" href="/preview">Preview</a>
+      <a class="btn ghost" href="/dashboard">Back</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
